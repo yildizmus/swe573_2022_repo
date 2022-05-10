@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
 class Space(models.Model):
-    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name="spaces")
+    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name="spaces", verbose_name='creator')
     title=models.CharField(max_length=50, blank=False, null=False)
     content=RichTextField()
     created_date=models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
