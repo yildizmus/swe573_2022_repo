@@ -1,0 +1,4 @@
+Django==4.0.4
+django_autoslug==1.9.8
+django_ckeditor==6.4.0
+jmespath==1.0.0
