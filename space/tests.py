@@ -1,6 +1,6 @@
 from urllib import request
 from django.test import TestCase
-from .models import Space
+from space.models.spacemodel import SpaceModel
 from django.contrib.auth.models import User
 
 
