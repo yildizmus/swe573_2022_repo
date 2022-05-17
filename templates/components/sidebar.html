@@ -1,13 +1,21 @@
 <div class="col-3">
+
     <div class="card mb-3">
       <div class="card-header">
         Menu
       </div>
+    {% if request.user.is_authenticated %}
       <ul class="list-group list-group-flush">
         <li class="list-group-item">Profile</li>
-        <li class="list-group-item">My Spaces</li>
+        <li class="list-group-item"><a href="{% url 'mycreatedspaces'%}">My Created Spaces</a></li>
+        <li class="list-group-item"><a href="{% url 'mymemberspaces'%}">My Member Spaces</a></li>
         <li class="list-group-item">Cerate a Space</li>
         <li class="list-group-item">Sign out</li>
       </ul>
+    {% else %}
+
+    Sign-in for displaying the menu.
+
+    {% endif %}
     </div>
   </div>
