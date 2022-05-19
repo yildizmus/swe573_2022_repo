@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} {{space.title}} {% endblock %}
+
+{% block content %} 
+
+
+<div class="card">
+    <h3 class="card-header">Space {{ space.id }}</h3>
+    <div class="card-body">
+      <h4 class="card-title">{{ space.title }}</h4>
+      <p class="card-text">{{ space.content|safe }}</p>
+      <p class="card-text"><h5>Space Members:</h5> {% for j in space.members.all %} {{ j }} {% endfor %} </p>
+      <p class="card-text"><b>Creator:</b> {{ space.author }}</p>
+      <p class="card-text"> created {{ space.created_date|timesince }} ago.</p>      
+      
+    </div>
+  </div>
+  
+
+
+{% endblock %}
+

@@ -14,7 +14,7 @@
       <p class="card-text"><h5>Space Members:</h5> {% for j in i.members.all %} {{ j }} {% endfor %} </p>
       <p class="card-text"><b>Creator:</b> {{ i.author }}</p>
       <p class="card-text"> created {{ i.created_date|timesince }} ago.</p>      
-      <a href="#" class="btn btn-primary">Go Space</a>
+      <a href="{% url 'spacedetails' slug=i.slug %}" class="btn btn-primary">Go Space</a>
     </div>
   </div>
   
