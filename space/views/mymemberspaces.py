@@ -11,4 +11,4 @@ def mymemberspaces(request):
     page=request.GET.get('page')
     paginator=Paginator(allspaces,3)
 
-    return render(request,'pages/mycreatedspaces.html', context={'allspaces':paginator.get_page(page)})
+    return render(request,'pages/mymemberspaces.html', context={'allspaces':paginator.get_page(page)})

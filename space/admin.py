@@ -1,6 +1,6 @@
 from django.contrib import admin
 from jmespath import search
-from space.models.spacemodel import SpaceModel
+from space.models import SpaceModel, MessageModel
 
 @admin.register(SpaceModel)
 class SpaceAdmin(admin.ModelAdmin):
@@ -8,3 +8,7 @@ class SpaceAdmin(admin.ModelAdmin):
     search_fields=('title', 'content')
     list_filter=['created_date']
 
+@admin.register(MessageModel)
+class MessageAdmin(admin.ModelAdmin):
+    list_display=('sender', 'memberspace', 'message', 'created_time')
+    search_fields=('sender__username',)    
