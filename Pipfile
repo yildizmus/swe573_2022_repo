@@ -10,6 +10,7 @@ django-ckeditor = "*"
 coverage = "*"
 flake8 = "*"
 pipreqs = "*"
+django-crispy-forms = "*"
 
 [dev-packages]
 

@@ -4,7 +4,7 @@ from space.models import SpaceModel
 
 class MessageModel(models.Model):
     sender=models.ForeignKey(User, on_delete=models.CASCADE,related_name="message")
-    memberspace=models.ForeignKey(SpaceModel, on_delete=models.CASCADE, related_name="messages")
+    memberspace=models.ForeignKey(SpaceModel, on_delete=models.CASCADE, related_name="messages", blank=True)
     message=models.TextField()
     created_time=models.DateTimeField(auto_now_add=True, verbose_name="Created Time")
     updated_time=models.DateTimeField(auto_now=True, verbose_name="Updated Time")

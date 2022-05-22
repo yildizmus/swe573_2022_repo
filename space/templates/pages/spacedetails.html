@@ -20,7 +20,8 @@
   
 <div class="row">
   <div class="col-md-7"><h3> Discussion Baord</h3>
-    {% if request.user in space.members.all %}
+    {% if request.user in space.members.all or request.user == space.author %}
+    <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-message' %}">Send a Message</a>
 
     {% for i in messages %}
 
