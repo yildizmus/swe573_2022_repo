@@ -1,13 +1,18 @@
 from django.shortcuts import render, get_object_or_404
-from space.models import SpaceModel, message
-#from django.contrib.auth.decorators  import login_required
+from space.models import SpaceModel
+from django.core.paginator import Paginator
 
-#@login_required(login_url='/')
 def spacedetails(request, slug): 
     space=get_object_or_404(SpaceModel, slug=slug)
-    messages=space.messages.all().order_by('-id')    
+    messages=space.messages.all().order_by('-id')
+    steps=space.steps.all()
+
+
+    page=request.GET.get('page')
+    paginator=Paginator(messages,3)
     return render(request,'pages/spacedetails.html', context={
         'space':space,
-        'messages':messages,
+        'messages':paginator.get_page(page),
+        'steps':steps,
         
     })
