@@ -16,6 +16,7 @@
         <p>
           {% if request.user == space.author %}
           <a class="btn btn-primary" href="{% url 'update-space' slug=space.slug %}">Update</a>
+          <a class="btn btn-primary" href="{% url 'delete-space' slug=space.slug %}">Delete</a>
           {% endif %}
         </p>
       </p>      

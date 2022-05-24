@@ -1,7 +1,7 @@
 from django.urls import path
 
 from space.views.mycreatedspaces import mycreatedspaces
-from .views import homepage, spaces, aboutus, mycreatedspaces, mymemberspaces, spacedetails, create_space, create_message, warning, create_step, update_space
+from .views import homepage, spaces, aboutus, mycreatedspaces, mymemberspaces, spacedetails, create_space, create_message, warning, create_step, update_space, delete_space
 
 urlpatterns = [
     path('', homepage, name='homepage'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('create-message', create_message, name='create-message'),
     path('create-step', create_step, name='create-step'),
     path('update-space/<slug:slug>', update_space, name='update-space'),
+    path('delete-space/<slug:slug>', delete_space, name='delete-space'),
     
     
 ]

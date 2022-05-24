@@ -10,3 +10,4 @@ from .create_message import create_message
 from .create_step import create_step
 from .warning import warning
 from .update_space import update_space
+from .delete_space import delete_space
