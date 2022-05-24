@@ -14,3 +14,4 @@ from .delete_space import delete_space
 from .signout import signout
 from .change_password import change_password
 from .edit_profile import edit_profile
+from .register import register
