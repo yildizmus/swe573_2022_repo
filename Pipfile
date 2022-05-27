@@ -12,6 +12,10 @@ flake8 = "*"
 pipreqs = "*"
 django-crispy-forms = "*"
 pillow = "*"
+django-environ = "*"
+boto3 = "*"
+django-storages = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
