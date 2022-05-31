@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{space.title}} {% endblock %}
+
+{% block content %} 
+
+
+<div class="card mb-3">
+    <h3 class="card-header">Space {{ space.id }}</h3>
+    <div class="card-body">
+      <h4 class="card-title">{{ space.title }}</h4>
+      <p class="card-text">{{ space.content|safe }}</p>
+      <p class="card-text"><h5>Space Members:</h5> {% for j in space.members.all %} {{ j }} {% endfor %} </p>
+      <p class="card-text"><b>Creator:</b> {{ space.author }}</p>
+      <p class="card-text"> created {{ space.created_date|timesince }} ago.
+        <p>
+          {% if request.user == space.author %}
+          <a class="btn btn-primary" href="{% url 'update-space' slug=space.slug %}">Update</a>
+          <a class="btn btn-primary" href="{% url 'delete-space' slug=space.slug %}">Delete</a>
+          {% endif %}
+        </p>
+      </p>      
+      
+    </div>
+  </div>
+
+  
+<div class="row">
+  <div class="col-md-7"><h3> Discussion Baord</h3>
+    {% if request.user in space.members.all or request.user == space.author %}
+    <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-message' %}">Send a Message</a>
+
+    {% for i in messages %}
+
+    
+      <div class="card">
+        <div class="card-body" style="display:flex;flex-direction: row;">
+          <div>
+            <img src="{% static 'img/no-avatar.jpg' %}" class="rounded" class="pt-4" width="75px" height="100px">
+          </div>
+          <div>
+            <h5 class="card-title">{{i.sender.username}}</h5>
+            <p class="car-text"> {{i.message}}</p>
+            <p> {{i.created_time}}</p>
+          </div>
+        </div>
+      </div>
+    
+    {% endfor %}
+
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-end">
+        {% if messages.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ messages.previous_page_number }}">Previous</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">Previous</a>
+        </li>
+        {% endif %}
+  
+        <li class="page-item"><a class="page-link" href="#">{{ messages.number }}</a></li>
+  
+  
+        {% if messages.has_next %}
+  
+        <li class="page-item">
+          <a class="page-link" href="?page={{ messages.next_page_number }}">Next</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ messages.paginator.num_page }}">Last Page</a>
+        </li>
+  
+        {% endif %}
+       
+      </ul>
+    </nav>
+
+    {% else %}
+
+    You are not authorized to view this part of the co-learning space.
+
+    {% endif %}
+   
+  </div>
+
+
+
+
+  <div class=" col-md-5"><h3> Learning Steps</h3>
+
+    {% if request.user in space.members.all or request.user == space.author %}
+    <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-step' %}">Add a Step</a>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Step #</th>
+          <th scope="col">Title</th>
+          <th scope="col">Content</th>
+          <th scope="col">Attachment</th>
+          <th scope="col">Creator</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      {% for i in steps %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{i.steptitle|safe}}</td>
+          <td>{{i.stepcontent|safe}}</td>
+          <td><a href="{{i.attachment.url}}"> {{ i.attachment }}</a></td>
+          <td>{{i.stepcreator}}</td>
+        </tr>
+      {% endfor %}
+    
+    {% elif request.user.is_authenticated %}
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Step #</th>
+          <th scope="col">Title</th>
+          <th scope="col">Content</th>
+          <th scope="col">Attachment</th>
+          <th scope="col">Creator</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      {% for i in steps %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{i.steptitle|safe}}</td>
+          <td>{{i.stepcontent|safe}}</td>
+          <td><a href="{{i.attachment.url}}"> {{ i.attachment }}</a></td>
+          <td>{{i.stepcreator}}</td>
+        </tr>
+      {% endfor %}
+
+      {% else %}
+
+      Please login to view this part.
+
+      {% endif %}
+
+      </tbody>
+    </table>  
+ 
+  
+  </div>
+</div>
+
+{% endblock %}
+
