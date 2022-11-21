@@ -6,6 +6,7 @@ def spacedetails(request, slug):
     space=get_object_or_404(SpaceModel, slug=slug)
     messages=space.messages.all().order_by('-id')
     steps=space.steps.all()
+    terms=space.terms.all()
 
 
     page=request.GET.get('page')
@@ -14,5 +15,6 @@ def spacedetails(request, slug):
         'space':space,
         'messages':paginator.get_page(page),
         'steps':steps,
+        'terms':terms
         
     })
