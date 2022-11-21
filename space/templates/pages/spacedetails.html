@@ -14,7 +14,7 @@
       <p class="card-text"><b>Creator:</b> {{ space.author }}</p>
       <p class="card-text"> created {{ space.created_date|timesince }} ago.
         <p>
-          {% if request.user == space.author %}
+          {% if thor %}
           <a class="btn btn-primary" href="{% url 'update-space' slug=space.slug %}">Update</a>
           <a class="btn btn-primary" href="{% url 'delete-space' slug=space.slug %}">Delete</a>
           {% endif %}
@@ -115,6 +115,8 @@
           <td>{{i.stepcreator}}</td>
         </tr>
       {% endfor %}
+    </tbody>
+  </table>  
     
     {% elif request.user.is_authenticated %}
 
@@ -139,6 +141,8 @@
           <td>{{i.stepcreator}}</td>
         </tr>
       {% endfor %}
+    </tbody>
+  </table>  
 
       {% else %}
 
@@ -146,9 +150,6 @@
 
       {% endif %}
 
-      </tbody>
-    </table>  
- 
   
   </div>
 </div>

@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
+from space.models import SpaceModel
 from space.forms import CreateStepModelForm, CreateSpaceModelForm
 
 def create_step(request):
@@ -9,7 +10,9 @@ def create_step(request):
     if form.is_valid():
         step=form.save(commit=False)
         step.stepcreator=request.user
-        step.save()
+        space=get_object_or_404(SpaceModel, slug= step.stepspace.slug)
+        if request.user in space.members.all() or request.user == space.author:
+            step.save()
         
         return redirect('spacedetails', slug= step.stepspace.slug)    
 
