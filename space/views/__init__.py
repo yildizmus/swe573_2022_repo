@@ -8,6 +8,7 @@ from .spacedetails import spacedetails
 from .create_space import create_space
 from .create_message import create_message
 from .create_step import create_step
+from .create_term import create_term
 from .warning import warning
 from .update_space import update_space
 from .delete_space import delete_space
