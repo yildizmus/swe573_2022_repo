@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Send Message {% endblock %}
+
+{% block content %}
+
+<h1>Attempt page</h1>
+
+<h4>Title: {{quiz.title}}</h3>
+<h4>Description: {{quiz.description}}</h4>
+
+<input type="hidden" name="quiz_id" value={{quiz.id}}>
+
+
+<form action="">
+    {% for question in questions %}
+    <p>{{question.statement}}:</p>
+    <input type="radio" id="html" name={{question.statement}} value={{question.option1}}>
+    <label for="html">{{question.option1}}</label><br>
+    <input type="radio" id="html" name={{question.statement}} value={{question.option2}}>
+    <label for="html">{{question.option2}}</label><br>
+    <input type="radio" id="html" name={{question.statement}} value={{question.option3}}>
+    <label for="html">{{question.option3}}</label><br>
+    <input type="radio" id="html" name={{question.statement}} value={{question.option4}}>
+    <label for="html">{{question.option4}}</label><br>
+
+
+    <br>
+    {% endfor %}
+
+    <button id="submit_quiz" class="btn btn-danger mt-3 mb-3">Submit</button>
+</form>
+
+<div id="results">
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block javascript %}
+
+<script>
+
+    console.log("im quiz attempt");
+    var user_answers = [];
+    var quiz_id = $("input[name=quiz_id]").val();
+
+    $("#submit_quiz").click(function (event) {
+        event.preventDefault();
+        $("input[type=radio]:checked").each(function () {
+            console.log($(this).val());
+            user_answers.push($(this).val());
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "/quiz/attempt-quiz/"+quiz_id+"/",
+            data: {'user_answers':  user_answers},
+            success: function (response) {
+                console.log("successful request");
+                console.log(response);
+                $("form").hide();
+                $("#results").append(`
+                <h3>You scored ${response.score} out of ${response.total}</h3>
+                `)
+                // window.location.replace("/quiz/create-question");
+            },
+            error: function (response) {
+                // alert the error if any error occured
+                console.log("request failed");
+            }
+        })
+
+
+    });
+</script>
+
+{% endblock %}

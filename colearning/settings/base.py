@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'crispy_forms',
     'storages',
+
+    'quiz'
 ]
 
 MIDDLEWARE = [

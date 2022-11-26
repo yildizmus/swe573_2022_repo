@@ -2,50 +2,52 @@
 {% load static %}
 {% block title %} {{space.title}} {% endblock %}
 
-{% block content %} 
+{% block content %}
 
 
 <div class="card mb-3">
-    <h3 class="card-header">Space {{ space.id }}</h3>
-    <div class="card-body">
-      <h4 class="card-title">{{ space.title }}</h4>
-      <p class="card-text">{{ space.content|safe }}</p>
-      <p class="card-text"><h5>Space Members:</h5> {% for j in space.members.all %} {{ j }} {% endfor %} </p>
-      <p class="card-text"><b>Creator:</b> {{ space.author }}</p>
-      <p class="card-text"> created {{ space.created_date|timesince }} ago.
-        <p>
-          {% if thor %}
-          <a class="btn btn-primary" href="{% url 'update-space' slug=space.slug %}">Update</a>
-          <a class="btn btn-primary" href="{% url 'delete-space' slug=space.slug %}">Delete</a>
-          {% endif %}
-        </p>
-      </p>      
-      
-    </div>
-  </div>
+  <h3 class="card-header">Space {{ space.id }}</h3>
+  <div class="card-body">
+    <h4 class="card-title">{{ space.title }}</h4>
+    <p class="card-text">{{ space.content|safe }}</p>
+    <p class="card-text">
+    <h5>Space Members:</h5> {% for j in space.members.all %} {{ j }} {% endfor %} </p>
+    <p class="card-text"><b>Creator:</b> {{ space.author }}</p>
+    <p class="card-text"> created {{ space.created_date|timesince }} ago.
+    <p>
+      {% if thor %}
+      <a class="btn btn-primary" href="{% url 'update-space' slug=space.slug %}">Update</a>
+      <a class="btn btn-primary" href="{% url 'delete-space' slug=space.slug %}">Delete</a>
+      {% endif %}
+    </p>
+    </p>
 
-  
+  </div>
+</div>
+
+
 <div class="row">
-  <div class="col-md-7"><h3> Discussion Baord</h3>
+  <div class="col-md-7">
+    <h3> Discussion Baord</h3>
     {% if request.user in space.members.all or request.user == space.author %}
     <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-message' %}">Send a Message</a>
 
     {% for i in messages %}
 
-    
-      <div class="card">
-        <div class="card-body" style="display:flex;flex-direction: row;">
-          <div>
-            <img src="{% static 'img/no-avatar.jpg' %}" class="rounded" class="pt-4" width="75px" height="100px">
-          </div>
-          <div>
-            <h5 class="card-title">{{i.sender.username}}</h5>
-            <p class="car-text"> {{i.message}}</p>
-            <p> {{i.created_time}}</p>
-          </div>
+
+    <div class="card">
+      <div class="card-body" style="display:flex;flex-direction: row;">
+        <div>
+          <img src="{% static 'img/no-avatar.jpg' %}" class="rounded" class="pt-4" width="75px" height="100px">
+        </div>
+        <div>
+          <h5 class="card-title">{{i.sender.username}}</h5>
+          <p class="car-text"> {{i.message}}</p>
+          <p> {{i.created_time}}</p>
         </div>
       </div>
-    
+    </div>
+
     {% endfor %}
 
 
@@ -60,21 +62,21 @@
           <a class="page-link">Previous</a>
         </li>
         {% endif %}
-  
+
         <li class="page-item"><a class="page-link" href="#">{{ messages.number }}</a></li>
-  
-  
+
+
         {% if messages.has_next %}
-  
+
         <li class="page-item">
           <a class="page-link" href="?page={{ messages.next_page_number }}">Next</a>
         </li>
         <li class="page-item">
           <a class="page-link" href="?page={{ messages.paginator.num_page }}">Last Page</a>
         </li>
-  
+
         {% endif %}
-       
+
       </ul>
     </nav>
 
@@ -83,13 +85,14 @@
     You are not authorized to view this part of the co-learning space.
 
     {% endif %}
-   
+
   </div>
 
 
 
 
-  <div class=" col-md-5"><h3> Learning Steps</h3>
+  <div class=" col-md-5">
+    <h3> Learning Steps</h3>
 
     {% if request.user in space.members.all or request.user == space.author %}
     <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-step' %}">Add a Step</a>
@@ -105,8 +108,8 @@
         </tr>
       </thead>
       <tbody>
-      
-      {% for i in steps %}
+
+        {% for i in steps %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{i.steptitle|safe}}</td>
@@ -114,10 +117,10 @@
           <td><a href="{{i.attachment.url}}"> {{ i.attachment }}</a></td>
           <td>{{i.stepcreator}}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>  
-    
+        {% endfor %}
+      </tbody>
+    </table>
+
     {% elif request.user.is_authenticated %}
 
     <table class="table">
@@ -131,8 +134,8 @@
         </tr>
       </thead>
       <tbody>
-      
-      {% for i in steps %}
+
+        {% for i in steps %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{i.steptitle|safe}}</td>
@@ -140,29 +143,60 @@
           <td><a href="{{i.attachment.url}}"> {{ i.attachment }}</a></td>
           <td>{{i.stepcreator}}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>  
+        {% endfor %}
+      </tbody>
+    </table>
 
-      {% else %}
+    {% else %}
 
-      Please login to view this part.
+    Please login to view this part.
 
-      {% endif %}
+    {% endif %}
 
-  
+
   </div>
 </div>
 
 <div class="row">
-  <div class="col-md-7"><h3> Quizzes</h3>
+  <div class="col-md-7">
+    <h3> Quizzes</h3>
+
+    {% if request.user in space.members.all or request.user == space.author %}
+    <a class="btn btn-danger mt-3 mb-3" href="{% url 'create_question' space_id=space.id %}">Create Quiz</a>
+
+    {% for i in quizes %}
+
+    <div class="card">
+      <h3 class="card-header">Quiz {{ i.id }}</h3>
+      <div class="card-body">
+        <h4 class="card-title">{{ i.title }}</h4>
+        <p class="card-text"><b>Creator:</b> {{ i.creator }}</p>
+        <a href="/quiz/attempt-quiz/{{i.id}}/" class="btn btn-primary">Attempt Quiz</a>
+      </div>
+    </div>
+
+    {% empty %}
+
+    <p>There isn't any quizes.</p>
+
+    {% endfor %}
+
+    {% elif request.user.is_authenticated %}
+    <p>else part</p>
+
+    {% else %}
+
+    Please login to view this part.
+
+    {% endif %}
 
   </div>
 
 
 
 
-  <div class=" col-md-5"><h3> Glossary</h3>
+  <div class=" col-md-5">
+    <h3> Glossary</h3>
 
     {% if request.user in space.members.all or request.user == space.author %}
     <a class="btn btn-danger mt-3 mb-3" href="{% url 'create-term' %}">Write a Term</a>
@@ -178,8 +212,8 @@
         </tr>
       </thead>
       <tbody>
-      
-      {% for i in terms %}
+
+        {% for i in terms %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{i.termtitle|safe}}</td>
@@ -187,10 +221,10 @@
           <td>{{i.termstep|safe}}</td>
           <td>{{i.termwriter}}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>  
-    
+        {% endfor %}
+      </tbody>
+    </table>
+
     {% elif request.user.is_authenticated %}
 
     <table class="table">
@@ -204,8 +238,8 @@
         </tr>
       </thead>
       <tbody>
-      
-      {% for i in steps %}
+
+        {% for i in steps %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{i.steptitle|safe}}</td>
@@ -213,19 +247,18 @@
           <td><a href="{{i.attachment.url}}"> {{ i.attachment }}</a></td>
           <td>{{i.stepcreator}}</td>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>  
+        {% endfor %}
+      </tbody>
+    </table>
 
-      {% else %}
+    {% else %}
 
-      Please login to view this part.
+    Please login to view this part.
 
-      {% endif %}
+    {% endif %}
 
-  
+
   </div>
 </div>
 
 {% endblock %}
-
